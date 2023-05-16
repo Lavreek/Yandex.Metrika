@@ -18,6 +18,8 @@ class Push implements iSettings
 
     private string $token;
 
+    private string $mode;
+
     public function __construct(array $options)
     {
         foreach (self::push_allowed_params as $option => $variable) {
@@ -26,7 +28,25 @@ class Push implements iSettings
             }
         }
 
+        if (isset($options['m'])) {
+            $this->setMode($options['m']);
+        }
+
         $this->setUrl();
+    }
+
+    public function setMode(string $mode) : void
+    {
+        $this->mode = $mode;
+    }
+
+    public function getMode() : string
+    {
+        if (!empty($this->mode)) {
+            return $this->mode;
+        }
+
+        return "SAVE";
     }
 
     public function pushFile()
@@ -81,23 +101,6 @@ class Push implements iSettings
         }
     }
 
-    private function setUrl() : void
-    {
-        $sample = "https://api-metrika.yandex.net/cdp/api/v1/counter/%s/data/simple_orders?merge_mode=APPEND&oauth_token=%s";
-
-        $token_path = self::settings_path . "/" . self::token_default_file;
-        $counter_path = self::settings_path . "/" . self::counter_default_file;
-
-        if (file_exists($token_path) and file_exists($counter_path)) {
-            ['access_token' => $this->token] = json_decode(file_get_contents($token_path), true);
-            $counter = file_get_contents($counter_path);
-
-            $this->url = sprintf($sample, $counter, $this->token);
-        } else {
-            die("\n Завершите настроку репозитория. \n");
-        }
-    }
-
     private function httpRequest($headers, $data) : string|bool
     {
         $ch = curl_init($this->url);
@@ -113,6 +116,26 @@ class Push implements iSettings
         curl_close($ch);
 
         return $response;
+    }
+
+    private function setUrl() : void
+    {
+        $mode = $this->getMode();
+
+        echo "\n Register new URL with mode `$mode` \n";
+        $sample = "https://api-metrika.yandex.net/cdp/api/v1/counter/%s/data/simple_orders?merge_mode=$mode&oauth_token=%s";
+
+        $token_path = self::settings_path . "/" . self::token_default_file;
+        $counter_path = self::settings_path . "/" . self::counter_default_file;
+
+        if (file_exists($token_path) and file_exists($counter_path)) {
+            ['access_token' => $this->token] = json_decode(file_get_contents($token_path), true);
+            $counter = file_get_contents($counter_path);
+
+            $this->url = sprintf($sample, $counter, $this->token);
+        } else {
+            die("\n Завершите настроку репозитория. \n");
+        }
     }
 
     private function setData($boundary, $filename, $calls) : string

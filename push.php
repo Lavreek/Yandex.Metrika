@@ -3,8 +3,7 @@ define('ROOT_PATH', __DIR__);
 
 require_once ROOT_PATH . "/src/push/Push.php";
 
-$options = getopt("f:a:");
-
+$options = getopt("f:a:m:");
 $push = new Push($options);
 
 if (isset($options['f'])) {
