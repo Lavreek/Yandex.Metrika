@@ -37,11 +37,7 @@ class Push implements iSettings
         $boundary = uniqid();
         $calls = join(PHP_EOL, explode("\n", $filedata));
 
-        $data = "--------------------------$boundary\x0D\x0A";
-        $data .= "Content-Disposition: form-data; name=\"file\"; filename=\"$filename\"\x0D\x0A";
-        $data .= "Content-Type: text/csv\x0D\x0A\x0D\x0A";
-        $data .= $calls."\x0A\x0D\x0A";
-        $data .= "--------------------------$boundary--";
+        $data = $this->setData($boundary, $filename, $calls);
 
         $headers = array(
             "Content-Type: multipart/form-data; boundary=------------------------$boundary",
@@ -69,11 +65,7 @@ class Push implements iSettings
             $boundary = uniqid();
             $calls = join(PHP_EOL, explode("\n", $filedata));
 
-            $data = "--------------------------$boundary\x0D\x0A";
-            $data .= "Content-Disposition: form-data; name=\"file\"; filename=\"$filename\"\x0D\x0A";
-            $data .= "Content-Type: text/csv\x0D\x0A\x0D\x0A";
-            $data .= $calls."\x0A\x0D\x0A";
-            $data .= "--------------------------$boundary--";
+            $data = $this->setData($boundary, $filename, $calls);
 
             $headers = array(
                 "Content-Type: multipart/form-data; boundary=------------------------$boundary",
@@ -89,7 +81,7 @@ class Push implements iSettings
         }
     }
 
-    private function setUrl()
+    private function setUrl() : void
     {
         $sample = "https://api-metrika.yandex.net/cdp/api/v1/counter/%s/data/simple_orders?merge_mode=APPEND&oauth_token=%s";
 
@@ -100,7 +92,7 @@ class Push implements iSettings
             ['access_token' => $this->token] = json_decode(file_get_contents($token_path), true);
             $counter = file_get_contents($counter_path);
 
-            $this->url = sprintf($sample, [$counter, $this->token]);
+            $this->url = sprintf($sample, $counter, $this->token);
         } else {
             die("\n Завершите настроку репозитория. \n");
         }
@@ -121,5 +113,16 @@ class Push implements iSettings
         curl_close($ch);
 
         return $response;
+    }
+
+    private function setData($boundary, $filename, $calls) : string
+    {
+        $data = "--------------------------$boundary\x0D\x0A";
+        $data .= "Content-Disposition: form-data; name=\"file\"; filename=\"$filename\"\x0D\x0A";
+        $data .= "Content-Type: text/csv\x0D\x0A\x0D\x0A";
+        $data .= $calls."\x0A\x0D\x0A";
+        $data .= "--------------------------$boundary--";
+
+        return $data;
     }
 }

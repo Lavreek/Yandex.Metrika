@@ -3,10 +3,10 @@
 ### Получение токена и создание файлов настроек
 1. Откройте файл `getToken.html` он перенаправит Вас на авторизацию в приложении.
 2. Скопируйте адресную строку
-+ Пример: https://oauth.yandex.ru/verification_code#access_token=?&token_type=?&expires_in=?
++ Пример: `https://oauth.yandex.ru/verification_code#access_token=?&token_type=?&expires_in=?`
 + Вместо `?` будут Ваши сгенерированные значения.
 3. Выполните файл `createSettings.php` с параметрами -l (link) или -c (counter). Параметры можно использовать вместе или раздельно.
-+ Пример: php `createSettings.php` -l="https://oauth.yandex.ru/verification_code#access_token=?&token_type=?&expires_in=?"
++ Пример: `php createSettings.php -l="https://oauth.yandex.ru/verification_code#access_token=?&token_type=?&expires_in=?"`
 + Убедитесь, что вместо `?` будут Ваши сгенерированные значения.
 
 ### Удаление файлов настроек
@@ -16,8 +16,10 @@
 ### Добавление файлов в Яндекс.Метрика
 #### Добавление следует по пути: 
 + `Яндекс.Метрика -> Счётчик -> Посетители и клиенты -> Клиенты`
-
-P.S.: Исходный код переписан, но не отлажен
+1. Выполните файл `push.php` с параметрами -f (file) или -a (all)
++ + `-f (file)` - Путь к файлу (абсолютный)
++ + `-a (all)` - Путь к директории (абсолютный)
++ Пример: `php push.php -f /files/file.csv`
 
 ## Параметры применяемые в csv файле Яндекс.Метрики
 + create_date_time — дата и время
