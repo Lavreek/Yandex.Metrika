@@ -1,0 +1,2 @@
+id,client_id,phone,email,phone_md5,email_md5,status,create_date_time
+1,1,+00000000000,mail@email.com,cf57145a6a073e1b37325ea33152db8e,6c9a01e1291921c91bbf9018fca122ce,IN_PROGRESS,00.00.0000 00:00

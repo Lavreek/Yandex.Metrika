@@ -1,0 +1,2 @@
+*.link.log
+!example.link.log
