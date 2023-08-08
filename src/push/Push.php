@@ -72,9 +72,15 @@ class Push implements iSettings
         }
     }
 
-    public function pushDirectory()
+    public function pushDirectory(string $filestart = "")
     {
         $files = array_diff(scandir($this->all), ['.', '..']);
+
+        if (!empty($filestart)) {
+            for ($i = 0; $i <= array_search($filestart, $files); $i++) {
+                unset($files[$i]);
+            }
+        }
 
         foreach ($files as $file) {
             $filepath = $this->all . "/" . $file;

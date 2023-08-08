@@ -55,18 +55,17 @@ foreach ($files as $file) {
 
             while (!$writedResult) {
                 $writedResult = file_put_contents($resultPath . $resultFile . ".csv",
-                    "$id,$resultFile$resultFileMD5,$phoneMD5,$emailMD5,IN_PROGRESS,$date\n", FILE_APPEND);
+                    "$id,$resultFileMD5,$phoneMD5,$emailMD5,IN_PROGRESS,$date\n", FILE_APPEND);
             }
 
             $writedLink = false;
 
             while (!$writedLink) {
                 $writedLink = file_put_contents($linksPath . $resultFile . ".link.log",
-                    "$id,$resultFile$resultFileMD5,$phone,$email,$phoneMD5,$emailMD5,IN_PROGRESS,$date\n", FILE_APPEND);
+                    "$id,$resultFileMD5,$phone,$email,$phoneMD5,$emailMD5,IN_PROGRESS,$date\n", FILE_APPEND);
             }
         }
     }
 
     fclose($f);
 }
-
