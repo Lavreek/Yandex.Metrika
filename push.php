@@ -10,7 +10,13 @@ if (isset($options['f'])) {
     $push->pushFile();
     die();
 } elseif (isset($options['a'])) {
-    $push->pushDirectory($options['s']);
+    $filestart = "";
+
+    if (isset($options['s'])) {
+        $filestart = $options['s'];
+    }
+
+    $push->pushDirectory($filestart);
     die();
 }
 

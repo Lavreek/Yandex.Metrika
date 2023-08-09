@@ -17,7 +17,7 @@ foreach ($files as $file) {
         if (empty($firstRow)) {
             $firstRow = $filedata;
 
-            $resultFile = str_replace(['-', '_', '.', '.', 'csv'], '', $file);
+            $resultFile = str_replace(['-', '_', '.', 'csv'], '', $file);
             file_put_contents($resultPath . $resultFile . ".csv",
                 "id,client_uniq_id,phones_md5,emails_md5,order_status,create_date_time\n"
             );
