@@ -16,7 +16,7 @@ foreach ($files as $file) {
     $data = [
         'segment' => [
             'name' => $segmentName . uniqid(),
-            'expression' => "cdp:cn:externalHardID=='ffffffbd5c12636593d473b8e3a4a67f'",//"cdp:o:orderStatus=='$segmentName' OR ym:s:paramsLevel1=='order_status'",
+            'expression' => "cdp:o:orderStatus=='$segmentName'",
             'segment_source' => 'api'
         ]
     ];
