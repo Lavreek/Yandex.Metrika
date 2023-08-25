@@ -1,12 +1,12 @@
 <?php
 
-
 $settingsFolder = __DIR__ . "/.settings/";
 
 $counter = file_get_contents($settingsFolder . "counter.txt");
 $tokenJSON = json_decode(file_get_contents($settingsFolder . "token.json"), true);
 
-$files = array_diff(scandir('C:\Users\user\Desktop\dab'), ['.', '..']);
+$segmentsPath = "";
+$files = array_diff(scandir($segmentsPath), ['.', '..']);
 
 foreach ($files as $file) {
     $fileinfo = pathinfo($file);
@@ -15,7 +15,7 @@ foreach ($files as $file) {
 
     $data = [
         'segment' => [
-            'name' => $segmentName . uniqid(),
+            'name' => $segmentName,
             'expression' => "cdp:o:orderStatus=='$segmentName'",
             'segment_source' => 'api'
         ]
@@ -42,11 +42,4 @@ foreach ($files as $file) {
     curl_close($ch);
 
     file_put_contents($settingsFolder . 'create-segment.log', "\n $response \n", FILE_APPEND);
-    break;
 }
-
-die();
-
-
-
-
